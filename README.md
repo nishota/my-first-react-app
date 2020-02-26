@@ -1,3 +1,12 @@
+
+0. ```npm install -g create-react-app```
+1. ```npx create-react-app my-app --typescript```
+2. ```npm install --save-dev tslint tslint-react```
+3. ```npm i -D node-sass```
+4. change .css to .scss
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
