@@ -1,8 +1,9 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
+import { Clock } from './component/Clock';
 
-function App() {
+export function App() {
   return (
     <div className="App">
       <header className="App-header">
@@ -18,6 +19,9 @@ function App() {
         >
           Learn React
         </a>
+        <div>
+          <Clock></Clock>
+        </div>
       </header>
     </div>
   );
