@@ -1,39 +1,82 @@
-import React from "react"
+import React from "react";
+import './Clock.scss';
 
 interface Props {
 }
 interface State {
-    date: Date;
+    isLive: boolean;
+    curTime: number;
+    startTime: number;
 }
 
 export class Clock extends React.Component<Props, State> {
-    timeId: any;
-    
+    timerId: any;
+
     constructor(props: Props) {
         super(props);
-        this.state = { date: new Date() };
+        // 初期値を設定
+        this.state = {
+            isLive: false,
+            curTime: 0,
+            startTime: 0
+        };
     }
 
-    componentDidMount() { // 出力が DOM にレンダーされた後に実行されます
-        this.timeId = setInterval(
-          () => this.tick(),
-          1000
-        ); 
+    // マウント
+    componentDidMount(): void {
+        this.timerId = setInterval(() => this.tick(), 1000);
+    }
+    // アンマウント
+    componentWillUnmount(): void {
+        clearInterval(this.timerId);
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timeId);
+    render():JSX.Element{
+        let label = this.state.isLive?'STOP':'START';
+        const disp = this.getDisp();
+        const fclick = () =>this.clickHandler();
+        return(<div className='StopWatch'>
+            <div>{disp}</div>
+            <button onClick={fclick}>{label}</button>
+        </div>)
     }
 
-    tick(){
-        this.setState({date: new Date()});
+    tick(): void {
+        if (this.state.isLive) {
+            const v = new Date().getTime();
+            this.setState({ curTime: v });
+        }
     }
 
-    render() {
-        return (
-            <div>
-                <span>現在時刻:</span><span>{this.state.date.toLocaleTimeString()}</span>
-            </div>
-        );
+    clickHandler(): void {
+        if (this.state.isLive) {
+            this.setState({ isLive: false });
+            return;
+        }
+
+        const v = new Date().getTime();
+        this.setState({
+            isLive: true,
+            curTime: v,
+            startTime: v
+        });
+        return;
+    }
+
+    getDisp(): JSX.Element {
+        const s = this.state;
+        const delta = s.curTime - s.startTime;
+        const t = Math.floor(delta / 1000);
+        const ss = t % 60;
+        const m = Math.floor(t / 60);
+        const mm = m % 60;
+        const hh = Math.floor(mm / 60);
+        const z = (num: number) => {
+            const s = '00' + String(num);
+            return s.substr(s.length - 2, 2);
+        }
+        return (<span className='disp'>
+            {z(hh)}:{z(mm)}:{z(ss)}
+        </span>);
     }
 }
