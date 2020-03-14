@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
 import { Clock } from './component/Clock';
+import { Form } from './component/Form';
 
 export function App() {
   return (
@@ -21,6 +22,9 @@ export function App() {
         </a>
         <div>
           <Clock></Clock>
+        </div>
+        <div>
+          <Form></Form>
         </div>
       </header>
     </div>
